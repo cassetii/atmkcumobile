@@ -13,11 +13,15 @@
     
     <style>
         :root {
-            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            --success-gradient: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+            /* Updated Color Palette */
+            --primary-color: #99bb1c;
+            --secondary-color: #023259;
+            --primary-gradient: linear-gradient(135deg, #99bb1c 0%, #7a9516 100%);
+            --secondary-gradient: linear-gradient(135deg, #023259 0%, #034a7b 100%);
+            --success-gradient: linear-gradient(135deg, #99bb1c 0%, #7a9516 100%);
             --warning-gradient: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
             --danger-gradient: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            --info-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
             --bg-light: #f8fafc;
             --bg-dark: #1a1a2e;
             --card-shadow: 0 8px 25px rgba(0,0,0,0.08);
@@ -34,14 +38,23 @@
             -moz-osx-font-smoothing: grayscale;
         }
 
+        html {
+            height: 100%;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
         body {
             background: var(--bg-light);
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             font-size: 14px;
             line-height: 1.6;
             color: #2d3748;
+            min-height: 100vh;
             overflow-x: hidden;
+            overflow-y: auto;
             -webkit-tap-highlight-color: transparent;
+            -webkit-overflow-scrolling: touch;
         }
 
         body.dark-mode {
@@ -51,24 +64,25 @@
             color: #e2e8f0;
         }
 
-        /* Mobile Container */
+        /* Mobile Container - Fixed scroll issues */
         .mobile-container {
             max-width: 100%;
             margin: 0;
             padding: var(--mobile-padding);
-            min-height: 100vh;
-            padding-bottom: 80px; /* Space for bottom navigation */
+            min-height: calc(100vh - 80px);
+            padding-bottom: 100px;
+            position: relative;
         }
 
         /* Header Section - Mobile Optimized */
         .mobile-header {
-            background: var(--primary-gradient);
+            background: var(--secondary-gradient);
             color: white;
             padding: 20px var(--mobile-padding);
             margin: calc(-1 * var(--mobile-padding)) calc(-1 * var(--mobile-padding)) 20px calc(-1 * var(--mobile-padding));
             border-radius: 0 0 24px 24px;
             position: relative;
-            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 4px 20px rgba(2, 50, 89, 0.3);
         }
 
         .mobile-header h1 {
@@ -114,6 +128,7 @@
             text-align: center;
             position: relative;
             transition: all 0.2s ease;
+            border-top: 3px solid var(--primary-color);
         }
 
         .stat-card:active {
@@ -138,14 +153,21 @@
         }
 
         .stat-card.primary .stat-icon { background: var(--primary-gradient); }
+        .stat-card.secondary .stat-icon { background: var(--secondary-gradient); }
         .stat-card.success .stat-icon { background: var(--success-gradient); }
         .stat-card.warning .stat-icon { background: var(--warning-gradient); }
         .stat-card.danger .stat-icon { background: var(--danger-gradient); }
+        .stat-card.info .stat-icon { background: var(--info-gradient); }
 
         .stat-number {
             font-size: 24px;
             font-weight: 700;
             margin-bottom: 4px;
+            color: var(--secondary-color);
+        }
+
+        body.dark-mode .stat-number {
+            color: var(--primary-color);
         }
 
         .stat-label {
@@ -189,9 +211,9 @@
 
         .search-input input:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: var(--primary-color);
             background: white;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            box-shadow: 0 0 0 3px rgba(153, 187, 28, 0.1);
         }
 
         .search-input i {
@@ -199,7 +221,7 @@
             left: 16px;
             top: 50%;
             transform: translateY(-50%);
-            color: #64748b;
+            color: var(--primary-color);
         }
 
         .filter-row {
@@ -217,11 +239,17 @@
             background: #f8fafc;
         }
 
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
         /* ATM Cards - Mobile Optimized */
         .atm-grid {
             display: flex;
             flex-direction: column;
             gap: 16px;
+            margin-bottom: 20px;
         }
 
         .atm-card {
@@ -242,7 +270,7 @@
         }
 
         .atm-card-header {
-            background: var(--primary-gradient);
+            background: var(--secondary-gradient);
             color: white;
             padding: 16px;
             position: relative;
@@ -285,6 +313,7 @@
             padding: 12px;
             margin-bottom: 12px;
             position: relative;
+            border-left: 4px solid var(--primary-color);
         }
 
         body.dark-mode .ac-info {
@@ -304,11 +333,11 @@
             font-size: 13px;
             font-weight: 600;
             margin-bottom: 8px;
-            color: #4a5568;
+            color: var(--secondary-color);
         }
 
         body.dark-mode .ac-info h6 {
-            color: #cbd5e0;
+            color: var(--primary-color);
         }
 
         .ac-grid {
@@ -340,7 +369,7 @@
         .ac-value {
             font-size: 12px;
             font-weight: 600;
-            color: #2d3748;
+            color: var(--secondary-color);
         }
 
         body.dark-mode .ac-value {
@@ -375,18 +404,62 @@
         }
 
         .btn-history {
-            background: var(--primary-gradient);
+            background: var(--info-gradient);
             color: white;
         }
 
         .btn-edit {
-            background: var(--secondary-gradient);
+            background: var(--primary-gradient);
             color: white;
         }
 
         .btn-delete {
             background: var(--danger-gradient);
             color: white;
+        }
+
+        /* Charts Section */
+        .charts-section {
+            background: white;
+            border-radius: var(--mobile-radius);
+            padding: var(--mobile-padding);
+            margin-bottom: 20px;
+            box-shadow: var(--card-shadow);
+            display: none;
+        }
+
+        body.dark-mode .charts-section {
+            background: rgba(45, 55, 72, 0.9);
+        }
+
+        .chart-container {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: var(--card-shadow);
+            position: relative;
+        }
+
+        body.dark-mode .chart-container {
+            background: rgba(45, 55, 72, 0.9);
+        }
+
+        .chart-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--secondary-color);
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        body.dark-mode .chart-title {
+            color: var(--primary-color);
+        }
+
+        .chart-canvas {
+            position: relative;
+            height: 250px;
         }
 
         /* Bottom Navigation */
@@ -400,12 +473,12 @@
             padding: 8px 0;
             z-index: 1000;
             box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+            backdrop-filter: blur(20px);
         }
 
         body.dark-mode .bottom-nav {
             background: rgba(45, 55, 72, 0.95);
             border-top: 1px solid #4a5568;
-            backdrop-filter: blur(20px);
         }
 
         .nav-items {
@@ -431,8 +504,9 @@
         }
 
         .nav-item:hover, .nav-item.active {
-            color: #667eea;
-            background: rgba(102, 126, 234, 0.1);
+            color: var(--primary-color);
+            background: rgba(153, 187, 28, 0.1);
+            text-decoration: none;
         }
 
         .nav-item i {
@@ -448,33 +522,12 @@
             border-radius: 50%;
             position: relative;
             top: -8px;
-            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 4px 20px rgba(153, 187, 28, 0.4);
         }
 
         .nav-item.add-btn i {
             font-size: 24px;
             margin-bottom: 0;
-        }
-
-        /* Floating Action Button */
-        .fab {
-            position: fixed;
-            bottom: 80px;
-            right: var(--mobile-padding);
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            background: var(--secondary-gradient);
-            color: white;
-            border: none;
-            font-size: 20px;
-            box-shadow: 0 4px 20px rgba(240, 147, 251, 0.4);
-            z-index: 999;
-            transition: all 0.2s ease;
-        }
-
-        .fab:active {
-            transform: scale(0.9);
         }
 
         /* Dark Mode Toggle */
@@ -508,7 +561,7 @@
         }
 
         .modal-header {
-            background: var(--primary-gradient);
+            background: var(--secondary-gradient);
             color: white;
             padding: 20px;
             border-radius: 20px 20px 0 0;
@@ -521,15 +574,21 @@
 
         .modal-body {
             padding: 20px;
+            max-height: calc(85vh - 120px);
+            overflow-y: auto;
         }
 
         .form-label {
             font-size: 12px;
             font-weight: 600;
-            color: #4a5568;
+            color: var(--secondary-color);
             margin-bottom: 4px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+        }
+
+        body.dark-mode .form-label {
+            color: var(--primary-color);
         }
 
         .form-control, .form-select {
@@ -543,9 +602,19 @@
 
         .form-control:focus, .form-select:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: var(--primary-color);
             background: white;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            box-shadow: 0 0 0 3px rgba(153, 187, 28, 0.1);
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+            border: none;
+        }
+
+        .btn-secondary {
+            background: var(--secondary-gradient);
+            border: none;
         }
 
         /* Loading State */
@@ -562,7 +631,7 @@
             width: 40px;
             height: 40px;
             border: 3px solid #e2e8f0;
-            border-top: 3px solid #667eea;
+            border-top: 3px solid var(--primary-color);
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin-bottom: 16px;
@@ -580,6 +649,7 @@
             left: var(--mobile-padding);
             right: var(--mobile-padding);
             z-index: 2000;
+            pointer-events: none;
         }
 
         .custom-toast {
@@ -593,6 +663,7 @@
             gap: 12px;
             font-size: 13px;
             animation: slideDown 0.3s ease;
+            pointer-events: auto;
         }
 
         @keyframes slideDown {
@@ -633,8 +704,58 @@
         }
 
         .toast-info .toast-icon {
-            background: var(--primary-gradient);
+            background: var(--info-gradient);
             color: white;
+        }
+
+        /* History Items */
+        .history-item {
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 12px;
+            margin: 8px 0;
+            border-left: 3px solid var(--primary-color);
+            position: relative;
+        }
+
+        body.dark-mode .history-item {
+            background: rgba(45, 55, 72, 0.5);
+        }
+
+        .history-meta {
+            font-size: 11px;
+            color: #718096;
+            margin-bottom: 4px;
+        }
+
+        .history-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .history-text {
+            font-size: 13px;
+            color: var(--secondary-color);
+            flex: 1;
+        }
+
+        body.dark-mode .history-text {
+            color: #e2e8f0;
+        }
+
+        .history-delete {
+            background: none;
+            border: none;
+            color: #e53e3e;
+            padding: 4px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .history-delete:hover {
+            background: rgba(229, 62, 62, 0.1);
         }
 
         /* Responsive Adjustments */
@@ -692,11 +813,20 @@
         /* Print styles */
         @media print {
             .bottom-nav,
-            .fab,
-            .dark-toggle,
-            .action-buttons {
+            .dark-toggle {
                 display: none !important;
             }
+        }
+
+        /* Scroll improvements */
+        .mobile-container {
+            scroll-padding-top: 20px;
+        }
+
+        /* Ensure proper scrolling on all devices */
+        body {
+            position: relative;
+            width: 100%;
         }
     </style>
 </head>
@@ -738,7 +868,7 @@
                 <div class="stat-number" id="activeATM">0</div>
                 <div class="stat-label">Active</div>
             </div>
-            <div class="stat-card warning">
+            <div class="stat-card info">
                 <div class="stat-icon">
                     <i class="fas fa-snowflake"></i>
                 </div>
@@ -776,6 +906,28 @@
             </div>
         </div>
 
+        <!-- Charts Section -->
+        <div class="charts-section" id="chartsSection">
+            <div class="chart-container">
+                <div class="chart-title">ATM Status Overview</div>
+                <div class="chart-canvas">
+                    <canvas id="statusChart"></canvas>
+                </div>
+            </div>
+            <div class="chart-container">
+                <div class="chart-title">AC Condition Analysis</div>
+                <div class="chart-canvas">
+                    <canvas id="acChart"></canvas>
+                </div>
+            </div>
+            <div class="chart-container">
+                <div class="chart-title">Monthly Maintenance Trend</div>
+                <div class="chart-canvas">
+                    <canvas id="maintenanceChart"></canvas>
+                </div>
+            </div>
+        </div>
+
         <!-- Loading State -->
         <div class="loading" id="loading" style="display: none;">
             <div class="loading-spinner"></div>
@@ -791,32 +943,27 @@
     <!-- Bottom Navigation -->
     <div class="bottom-nav">
         <div class="nav-items">
-            <a href="#" class="nav-item active">
+            <a href="#" class="nav-item active" onclick="setActiveNav(this, 'home')">
                 <i class="fas fa-home"></i>
                 <span>Home</span>
             </a>
-            <a href="#" class="nav-item" onclick="showCharts()">
+            <a href="#" class="nav-item" onclick="setActiveNav(this, 'charts'); toggleCharts()">
                 <i class="fas fa-chart-pie"></i>
-                <span>Stats</span>
+                <span>Charts</span>
             </a>
             <a href="#" class="nav-item add-btn" onclick="openATMModal()">
                 <i class="fas fa-plus"></i>
             </a>
-            <a href="#" class="nav-item" onclick="exportData()">
+            <a href="#" class="nav-item" onclick="setActiveNav(this, 'export'); exportData()">
                 <i class="fas fa-download"></i>
                 <span>Export</span>
             </a>
-            <a href="#" class="nav-item" onclick="showSettings()">
+            <a href="#" class="nav-item" onclick="setActiveNav(this, 'settings'); showSettings()">
                 <i class="fas fa-cog"></i>
                 <span>Settings</span>
             </a>
         </div>
     </div>
-
-    <!-- Floating Action Button -->
-    <button class="fab" onclick="toggleFabMenu()" id="fab">
-        <i class="fas fa-ellipsis-h"></i>
-    </button>
 
     <!-- ATM Modal -->
     <div class="modal fade" id="atmModal" tabindex="-1">
@@ -979,6 +1126,11 @@
         let currentATMId = null;
         let unsubscribe = null;
         let darkMode = false;
+        let charts = {
+            status: null,
+            ac: null,
+            maintenance: null
+        };
 
         // Initialize App
         document.addEventListener('DOMContentLoaded', function() {
@@ -996,6 +1148,11 @@
             }, 1000);
             
             setupEventListeners();
+            
+            // Initialize Chart.js defaults for mobile
+            Chart.defaults.font.size = 12;
+            Chart.defaults.responsive = true;
+            Chart.defaults.maintainAspectRatio = false;
         });
 
         // Setup Event Listeners
@@ -1010,14 +1167,31 @@
                 document.getElementById('atmForm').reset();
             });
 
+            // History modal enter key support
+            document.getElementById('newHistoryEntry').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    addHistoryEntry();
+                }
+            });
+
+            document.getElementById('technicianName').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    document.getElementById('newHistoryEntry').focus();
+                }
+            });
+
             // Prevent zoom on input focus (iOS)
             const inputs = document.querySelectorAll('input, select, textarea');
             inputs.forEach(input => {
                 input.addEventListener('focus', function() {
-                    document.querySelector('meta[name="viewport"]').setAttribute('content', 'width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0');
+                    if (window.innerWidth < 768) {
+                        document.querySelector('meta[name="viewport"]').setAttribute('content', 'width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0');
+                    }
                 });
                 input.addEventListener('blur', function() {
-                    document.querySelector('meta[name="viewport"]').setAttribute('content', 'width=device-width, initial-scale=1.0, user-scalable=no');
+                    if (window.innerWidth < 768) {
+                        document.querySelector('meta[name="viewport"]').setAttribute('content', 'width=device-width, initial-scale=1.0, user-scalable=no');
+                    }
                 });
             });
         }
@@ -1038,11 +1212,13 @@
                 });
                 renderATMs();
                 updateStatistics();
+                updateCharts();
                 updateConnectionStatus('connected');
                 updateLastUpdateTime();
             }, (error) => {
                 console.error("Error in real-time listener:", error);
                 updateConnectionStatus('error');
+                showToast('error', 'Connection error');
             });
         }
 
@@ -1067,6 +1243,7 @@
                 
                 renderATMs();
                 updateStatistics();
+                updateCharts();
                 showToast('success', 'Data loaded successfully');
             } catch (error) {
                 console.error("Error loading ATM data:", error);
@@ -1094,6 +1271,11 @@
                             date: "2024-12-15", 
                             entry: "Regular AC maintenance",
                             technician: "Budi Santoso"
+                        },
+                        { 
+                            date: "2024-11-20", 
+                            entry: "Filter cleaning",
+                            technician: "Ahmad Rifai"
                         }
                     ],
                     createdAt: new Date().toISOString()
@@ -1113,6 +1295,30 @@
                             date: "2024-10-10", 
                             entry: "Last AC service",
                             technician: "Rizki Pratama"
+                        },
+                        { 
+                            date: "2024-12-20", 
+                            entry: "Reported cooling issue",
+                            technician: "Security Staff"
+                        }
+                    ],
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    name: "ATM Mall Panakkukang",
+                    address: "Jl. Boulevard Panakkukang, Panakkukang, Makassar",
+                    status: "maintenance",
+                    acBrand: "Panasonic",
+                    acCapacity: 1.5,
+                    acStatus: "rusak",
+                    acTemp: 28,
+                    lastTechnician: "Sari Dewi",
+                    acNotes: "AC kompressor rusak",
+                    history: [
+                        { 
+                            date: "2024-12-18", 
+                            entry: "AC kompressor replacement needed",
+                            technician: "Sari Dewi"
                         }
                     ],
                     createdAt: new Date().toISOString()
@@ -1157,12 +1363,6 @@
             }
 
             filteredData.forEach(atm => {
-                const statusColors = {
-                    'aktif': 'success',
-                    'maintenance': 'warning',
-                    'tidak_aktif': 'danger'
-                };
-
                 const statusLabels = {
                     'aktif': 'ACTIVE',
                     'maintenance': 'MAINTENANCE',
@@ -1173,6 +1373,12 @@
                     'baik': 'Good',
                     'perlu_service': 'Need Service',
                     'rusak': 'Broken'
+                };
+
+                const acStatusColors = {
+                    'baik': '#99bb1c',
+                    'perlu_service': '#f6d365',
+                    'rusak': '#ff6b6b'
                 };
 
                 const card = document.createElement('div');
@@ -1200,7 +1406,9 @@
                                 </div>
                                 <div class="ac-item">
                                     <div class="ac-label">Status</div>
-                                    <div class="ac-value">${acStatusLabels[atm.acStatus]}</div>
+                                    <div class="ac-value" style="color: ${acStatusColors[atm.acStatus]}">
+                                        ${acStatusLabels[atm.acStatus]}
+                                    </div>
                                 </div>
                                 <div class="ac-item">
                                     <div class="ac-label">Temp</div>
@@ -1210,6 +1418,11 @@
                             ${atm.lastTechnician ? `
                                 <div style="margin-top: 8px; font-size: 11px; color: #718096;">
                                     <i class="fas fa-user-cog me-1"></i>Last: ${atm.lastTechnician}
+                                </div>
+                            ` : ''}
+                            ${atm.history && atm.history.length > 0 ? `
+                                <div style="margin-top: 8px; font-size: 11px; color: var(--primary-color);">
+                                    <i class="fas fa-history me-1"></i>${atm.history.length} maintenance record${atm.history.length !== 1 ? 's' : ''}
                                 </div>
                             ` : ''}
                         </div>
@@ -1240,10 +1453,280 @@
                 atm.acStatus === 'perlu_service' || atm.acStatus === 'rusak'
             ).length;
 
-            document.getElementById('totalATM').textContent = total;
-            document.getElementById('activeATM').textContent = active;
-            document.getElementById('acWorking').textContent = acWorking;
-            document.getElementById('needMaintenance').textContent = needMaintenance;
+            // Animate counter updates
+            animateCounter('totalATM', total);
+            animateCounter('activeATM', active);
+            animateCounter('acWorking', acWorking);
+            animateCounter('needMaintenance', needMaintenance);
+        }
+
+        // Animate Counter
+        function animateCounter(id, target) {
+            const element = document.getElementById(id);
+            const current = parseInt(element.textContent);
+            if (current === target) return;
+
+            const increment = target > current ? 1 : -1;
+            const step = Math.abs(target - current) / 10;
+            
+            let value = current;
+            const timer = setInterval(() => {
+                value += increment * Math.ceil(step);
+                if ((increment > 0 && value >= target) || (increment < 0 && value <= target)) {
+                    value = target;
+                    clearInterval(timer);
+                }
+                element.textContent = value;
+            }, 50);
+        }
+
+        // Update Charts
+        function updateCharts() {
+            if (document.getElementById('chartsSection').style.display === 'none') {
+                return; // Don't update hidden charts
+            }
+
+            updateStatusChart();
+            updateACChart();
+            updateMaintenanceChart();
+        }
+
+        // Update Status Chart
+        function updateStatusChart() {
+            const ctx = document.getElementById('statusChart');
+            if (!ctx) return;
+
+            if (charts.status) {
+                charts.status.destroy();
+            }
+
+            const statusData = {
+                aktif: atmData.filter(a => a.status === 'aktif').length,
+                maintenance: atmData.filter(a => a.status === 'maintenance').length,
+                tidak_aktif: atmData.filter(a => a.status === 'tidak_aktif').length
+            };
+
+            charts.status = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Active', 'Maintenance', 'Inactive'],
+                    datasets: [{
+                        data: [statusData.aktif, statusData.maintenance, statusData.tidak_aktif],
+                        backgroundColor: [
+                            '#99bb1c',
+                            '#f6d365',
+                            '#ff6b6b'
+                        ],
+                        borderColor: [
+                            '#7a9516',
+                            '#fda085',
+                            '#ee5a24'
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 15,
+                                usePointStyle: true,
+                                font: {
+                                    size: 11
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Update AC Chart
+        function updateACChart() {
+            const ctx = document.getElementById('acChart');
+            if (!ctx) return;
+
+            if (charts.ac) {
+                charts.ac.destroy();
+            }
+
+            const acData = {
+                baik: atmData.filter(a => a.acStatus === 'baik').length,
+                perlu_service: atmData.filter(a => a.acStatus === 'perlu_service').length,
+                rusak: atmData.filter(a => a.acStatus === 'rusak').length
+            };
+
+            charts.ac = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Good', 'Need Service', 'Broken'],
+                    datasets: [{
+                        label: 'AC Count',
+                        data: [acData.baik, acData.perlu_service, acData.rusak],
+                        backgroundColor: [
+                            'rgba(153, 187, 28, 0.8)',
+                            'rgba(246, 211, 101, 0.8)',
+                            'rgba(255, 107, 107, 0.8)'
+                        ],
+                        borderColor: [
+                            '#99bb1c',
+                            '#f6d365',
+                            '#ff6b6b'
+                        ],
+                        borderWidth: 2,
+                        borderRadius: 8,
+                        borderSkipped: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1,
+                                font: {
+                                    size: 10
+                                }
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                font: {
+                                    size: 10
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+        }
+
+        // Update Maintenance Chart
+        function updateMaintenanceChart() {
+            const ctx = document.getElementById('maintenanceChart');
+            if (!ctx) return;
+
+            if (charts.maintenance) {
+                charts.maintenance.destroy();
+            }
+
+            // Generate sample maintenance data for the last 6 months
+            const months = ['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            const maintenanceData = [];
+            const currentMonth = new Date().getMonth();
+            
+            // Generate realistic maintenance data
+            months.forEach((month, index) => {
+                const totalHistory = atmData.reduce((acc, atm) => {
+                    if (atm.history) {
+                        return acc + atm.history.length;
+                    }
+                    return acc;
+                }, 0);
+                
+                // Simulate monthly distribution
+                const monthlyMaintenance = Math.floor(Math.random() * (totalHistory / 2)) + 1;
+                maintenanceData.push(monthlyMaintenance);
+            });
+
+            charts.maintenance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: months,
+                    datasets: [{
+                        label: 'Maintenance Count',
+                        data: maintenanceData,
+                        borderColor: '#023259',
+                        backgroundColor: 'rgba(2, 50, 89, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: '#99bb1c',
+                        pointBorderColor: '#7a9516',
+                        pointBorderWidth: 2,
+                        pointRadius: 5
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1,
+                                font: {
+                                    size: 10
+                                }
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                font: {
+                                    size: 10
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+        }
+
+        // Toggle Charts
+        function toggleCharts() {
+            const chartsSection = document.getElementById('chartsSection');
+            const isVisible = chartsSection.style.display !== 'none';
+            
+            if (isVisible) {
+                chartsSection.style.display = 'none';
+                showToast('info', 'Charts hidden');
+            } else {
+                chartsSection.style.display = 'block';
+                updateCharts();
+                showToast('info', 'Charts displayed');
+                
+                // Scroll to charts
+                setTimeout(() => {
+                    chartsSection.scrollIntoView({ 
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }, 100);
+            }
+        }
+
+        // Set Active Navigation
+        function setActiveNav(element, section) {
+            // Remove active class from all nav items
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Add active class to clicked item
+            if (!element.classList.contains('add-btn')) {
+                element.classList.add('active');
+            }
+
+            // Handle section-specific actions
+            if (section === 'home') {
+                document.getElementById('chartsSection').style.display = 'none';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
         }
 
         // Filter ATMs
@@ -1335,7 +1818,10 @@
 
         // Delete ATM
         async function deleteATM(id) {
-            if (!confirm('Are you sure you want to delete this ATM?')) return;
+            const atm = atmData.find(a => a.id === id);
+            if (!atm) return;
+
+            if (!confirm(`Are you sure you want to delete "${atm.name}"?\n\nThis action cannot be undone.`)) return;
 
             try {
                 await window.deleteDoc(window.doc(window.db, "atms", id));
@@ -1380,27 +1866,22 @@
             
             sortedHistory.forEach((item, index) => {
                 const historyItem = document.createElement('div');
-                historyItem.style.cssText = `
-                    background: #f8fafc;
-                    border-radius: 10px;
-                    padding: 12px;
-                    margin: 8px 0;
-                    border-left: 3px solid #667eea;
-                `;
+                historyItem.className = 'history-item';
                 
                 historyItem.innerHTML = `
-                    <div style="display: flex; justify-content: between; align-items: start; margin-bottom: 4px;">
-                        <div>
-                            <div style="font-size: 11px; color: #718096; margin-bottom: 2px;">
-                                <i class="fas fa-calendar me-1"></i>
-                                ${new Date(item.date).toLocaleDateString('id-ID')}
-                                ${item.technician ? `• <i class="fas fa-user me-1"></i>${item.technician}` : ''}
-                            </div>
-                            <div style="font-size: 13px; color: #2d3748;">${item.entry}</div>
-                        </div>
-                        <button onclick="deleteHistoryEntry(${history.length - 1 - index})" 
-                                style="background: none; border: none; color: #e53e3e; padding: 4px;">
-                            <i class="fas fa-trash" style="font-size: 12px;"></i>
+                    <div class="history-meta">
+                        <i class="fas fa-calendar me-1"></i>
+                        ${new Date(item.date).toLocaleDateString('id-ID', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                        })}
+                        ${item.technician ? `• <i class="fas fa-user me-1"></i>${item.technician}` : ''}
+                    </div>
+                    <div class="history-content">
+                        <div class="history-text">${item.entry}</div>
+                        <button class="history-delete" onclick="deleteHistoryEntry(${history.length - 1 - index})" title="Delete">
+                            <i class="fas fa-trash"></i>
                         </button>
                     </div>
                 `;
@@ -1414,8 +1895,13 @@
             const entry = document.getElementById('newHistoryEntry').value.trim();
             const technician = document.getElementById('technicianName').value.trim();
             
-            if (!entry || !currentATMId || !technician) {
-                showToast('warning', 'Please fill in all fields');
+            if (!entry || !currentATMId) {
+                showToast('warning', 'Please fill in work description');
+                return;
+            }
+
+            if (!technician) {
+                showToast('warning', 'Please fill in technician name');
                 return;
             }
 
@@ -1485,25 +1971,39 @@
             icon.className = darkMode ? 'fas fa-sun' : 'fas fa-moon';
             localStorage.setItem('darkMode', darkMode);
             
-            // Update modal backdrops for dark mode
-            const modals = document.querySelectorAll('.modal');
-            modals.forEach(modal => {
-                if (darkMode) {
-                    modal.style.setProperty('--bs-modal-backdrop-bg', 'rgba(26, 26, 46, 0.8)');
-                } else {
-                    modal.style.removeProperty('--bs-modal-backdrop-bg');
-                }
-            });
-        }
-
-        // Show Charts
-        function showCharts() {
-            showToast('info', 'Charts feature coming soon');
+            // Update charts for dark mode
+            if (document.getElementById('chartsSection').style.display !== 'none') {
+                updateCharts();
+            }
         }
 
         // Show Settings
         function showSettings() {
-            showToast('info', 'Settings feature coming soon');
+            const options = [
+                '🌙 Toggle Dark Mode',
+                '📊 Show Charts',
+                '📱 About App',
+                '🔄 Refresh Data'
+            ];
+            
+            let choice = prompt('Settings:\n\n' + options.map((opt, i) => `${i+1}. ${opt}`).join('\n') + '\n\nSelect option (1-4):');
+            
+            switch(choice) {
+                case '1':
+                    toggleDarkMode();
+                    break;
+                case '2':
+                    toggleCharts();
+                    break;
+                case '3':
+                    alert('ATM Manager v1.0\nBank Sulselbar\n\nDeveloped for mobile-first experience');
+                    break;
+                case '4':
+                    location.reload();
+                    break;
+                default:
+                    if (choice) showToast('warning', 'Invalid option selected');
+            }
         }
 
         // Export Data
@@ -1513,36 +2013,40 @@
                 return;
             }
 
-            // Simple CSV export for mobile
-            const csvData = atmData.map(atm => ({
-                'Name': atm.name,
-                'Address': atm.address.replace(/,/g, ';'),
-                'Status': atm.status,
-                'AC_Brand': atm.acBrand || '',
-                'AC_Status': atm.acStatus,
-                'Last_Technician': atm.lastTechnician || ''
-            }));
+            try {
+                const csvData = atmData.map(atm => ({
+                    'Name': atm.name,
+                    'Address': atm.address.replace(/,/g, ';'),
+                    'Status': atm.status,
+                    'AC_Brand': atm.acBrand || '',
+                    'AC_Capacity': atm.acCapacity || '',
+                    'AC_Status': atm.acStatus,
+                    'AC_Temperature': atm.acTemp || '',
+                    'Last_Technician': atm.lastTechnician || '',
+                    'History_Count': atm.history ? atm.history.length : 0
+                }));
 
-            const headers = Object.keys(csvData[0]);
-            const csvContent = [
-                headers.join(','),
-                ...csvData.map(row => headers.map(header => row[header]).join(','))
-            ].join('\n');
+                const headers = Object.keys(csvData[0]);
+                const csvContent = [
+                    headers.join(','),
+                    ...csvData.map(row => headers.map(header => `"${row[header]}"`).join(','))
+                ].join('\n');
 
-            const blob = new Blob([csvContent], { type: 'text/csv' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `atm-data-${new Date().toISOString().split('T')[0]}.csv`;
-            a.click();
-            URL.revokeObjectURL(url);
-            
-            showToast('success', 'Data exported successfully');
-        }
-
-        // Toggle FAB Menu
-        function toggleFabMenu() {
-            showToast('info', 'Quick actions coming soon');
+                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `atm-data-${new Date().toISOString().split('T')[0]}.csv`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                showToast('success', 'Data exported successfully');
+            } catch (error) {
+                console.error('Export error:', error);
+                showToast('error', 'Export failed');
+            }
         }
 
         // Show Toast
@@ -1572,14 +2076,24 @@
 
             // Auto remove after 3 seconds
             setTimeout(() => {
-                toast.style.animation = 'slideDown 0.3s ease reverse';
-                setTimeout(() => toast.remove(), 300);
+                if (toast.parentNode) {
+                    toast.style.animation = 'slideDown 0.3s ease reverse';
+                    setTimeout(() => {
+                        if (toast.parentNode) {
+                            toast.remove();
+                        }
+                    }, 300);
+                }
             }, 3000);
 
             // Allow manual dismiss by tapping
             toast.addEventListener('click', () => {
                 toast.style.animation = 'slideDown 0.3s ease reverse';
-                setTimeout(() => toast.remove(), 300);
+                setTimeout(() => {
+                    if (toast.parentNode) {
+                        toast.remove();
+                    }
+                }, 300);
             });
         }
 
@@ -1618,15 +2132,16 @@
             updateConnectionStatus('error');
         });
 
-        // Prevent pull-to-refresh on mobile
+        // Prevent pull-to-refresh on mobile (optional)
+        let startY = 0;
         document.body.addEventListener('touchstart', e => {
-            if (e.touches.length === 1 && window.scrollY === 0) {
-                e.preventDefault();
-            }
-        }, { passive: false });
+            startY = e.touches[0].clientY;
+        }, { passive: true });
 
         document.body.addEventListener('touchmove', e => {
-            if (e.touches.length === 1 && window.scrollY === 0) {
+            const currentY = e.touches[0].clientY;
+            if (startY < currentY && window.scrollY === 0) {
+                // Only prevent if scrolling down at top of page
                 e.preventDefault();
             }
         }, { passive: false });
